@@ -1,0 +1,15 @@
+= form_tag(coupon_path, method: :post, id: 'coupon_form')
+#add_couponModal.modal.fade{role: 'dialog', tabindex: '-1'}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", type: "button"}
+          %span{"aria-hidden" => "true"} &times;
+        %h4.modal-title #{t('coupon_code')}
+      .modal-body
+        =text_field_tag 'code', '', required: true
+        %i.error_message
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", type: "button"} #{t('close')}
+        %button.btn.btn-primary #{t('send')}
+

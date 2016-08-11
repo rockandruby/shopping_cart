@@ -1,0 +1,24 @@
+%tr
+  %td{colspan: col}
+  %td
+    %strong #{t('subtotal')} :
+  %td
+    %strong #{@shopping_cart.subtotal(order)} #{t('currency')}
+  %tr
+    %td{colspan: col}
+    %td
+      %strong #{t('discount')} :
+    %td
+      %strong #{@shopping_cart.discount(order)} #{t('currency')}
+  %tr
+    %td{colspan: col}
+    %td
+      %strong #{t('delivery')}:
+    %td
+      %strong #{@shopping_cart.delivery(order)} #{t('currency')}
+  %tr
+    %td{colspan: col}
+    %td
+      %strong #{t('total')} :
+    %td
+      %strong #{@shopping_cart.total(order)} #{t('currency')}
