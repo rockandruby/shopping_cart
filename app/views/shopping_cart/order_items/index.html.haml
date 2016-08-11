@@ -1,6 +1,64 @@
 -if cart_empty?
   .col-lg-6.col-md-6.col-sm-6.col-lg-offset-4.col-md-offset-4.col-sm-offset-4
     %h3 #{t('empty_cart')}
+    = image_tag('shopping_cart/empty_cart.png')
 -else
-  = render partial: 'items', locals: {order: @current_order}
-  -#= render 'add_coupon'
+  %table.table
+    %thead
+      %tr
+        %th #{t('product')}
+        %th #{t('price')}
+        %th #{t('qty')}
+        %th #{t('total')}
+        %th
+    %tbody
+      - @current_order.order_items.each do |item|
+        %tr
+          %td #{item.productable.title}
+          %td #{item.price} #{t('currency')}
+          %td
+            = form_tag order_item_path(item), method: 'patch' do
+              = text_field_tag :quantity, item.quantity, type: 'number', required: 'true'
+              = button_tag image_tag('shopping_cart/refresh.png')
+          %td #{total_for_item(item)} #{t('currency')}
+          %td #{link_to(image_tag('shopping_cart/delete.png'), item, method: :delete)}
+      %tr
+        %td{colspan: 3}
+        %td
+          %strong #{t('subtotal')} :
+        %td #{order_total(@current_order)[:subtotal]} #{t('currency')}
+      %tr
+        %td{colspan: 3}
+        %td
+          %strong #{t('discount')} :
+        %td #{order_total(@current_order)[:discount]} #{t('currency')}
+      %tr
+        %td{colspan: 3}
+        %td
+          %strong #{t('total')} :
+        %td #{order_total(@current_order)[:total]} #{t('currency')}
+  .col-lg-12.col-md-12.col-sm-12
+    .col-lg-3.col-md-3.col-sm-3
+      =link_to(t('clear_cart'),clear_cart_path,class: 'btn btn-primary', method: :post)
+    .col-lg-3.col-md-3.col-sm-3
+      =link_to(t('go_shopping'),'/',class: 'btn btn-primary')
+    .col-lg-3.col-md-3.col-sm-3
+      =link_to(t('coupon'),'',class: 'btn btn-primary', id: 'coupon')
+    .col-lg-3.col-md-3.col-sm-3
+      =link_to(t('checkout'),'address_path' ,class: 'btn btn-success')
+
+  = form_tag(discount_path, method: :post, id: 'coupon_form')
+  #add_couponModal.modal.fade{role: 'dialog', tabindex: '-1'}
+    .modal-dialog
+      .modal-content
+        .modal-header
+          %button.close{"aria-label" => "Close", "data-dismiss" => "modal", type: "button"}
+            %span{"aria-hidden" => "true"} &times;
+          %h4.modal-title #{t('coupon_code')}
+        .modal-body
+          =text_field_tag 'code', '', required: true
+          %i.error_message
+        .modal-footer
+          %button.btn.btn-default{"data-dismiss" => "modal", type: "button"} #{t('close')}
+          %button.btn.btn-primary #{t('send')}
+

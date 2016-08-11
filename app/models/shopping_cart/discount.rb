@@ -1,0 +1,5 @@
+module ShoppingCart
+  class Discount < ApplicationRecord
+    belongs_to :order
+  end
+end

@@ -16,15 +16,29 @@ module ShoppingCart
         @current_order.order_items.create(productable: product,
                                           price: product.price, quantity: params[:quantity])
       end
-      redirect_to order_items_path
+      redirect_to root_path
+    end
+
+    def update
+      item = OrderItem.find(params[:id])
+      item.update(quantity: params[:quantity])
+      redirect_to root_path
     end
 
     def destroy
       OrderItem.find(params[:id]).destroy
+      redirect_to root_path
     end
 
     def destroy_items
       @current_order.order_items.destroy_all
+      redirect_to root_path
+    end
+
+    def discount
+      discount = Discount.find_by_code(params[:code])
+      discount.update(order: @current_order) if discount
+      redirect_to root_path
     end
 
     private
