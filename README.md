@@ -1,28 +1,22 @@
 # ShoppingCart
-Short description and motivation.
-
-## Usage
-How to use my plugin.
+Simple gem which adds shopping cart to your shop with some tricks.
 
 ## Installation
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'shopping_cart'
+gem 'shopping_cart', github: 'rockandruby/shopping_cart'
 ```
 
-And then execute:
-```bash
-$ bundle
-```
+## Usage
+Firstly, gem depends on cancancan and devise. Thus you app must have current_{model_name} method to perform
+shopping cart functionality. For right now cart is accessible only gor signed in users.
 
-Or install it yourself as:
-```bash
-$ gem install shopping_cart
-```
+Create shopping_cart initializer in config/initializers and add the following row inside: ShoppingCart.user_class = Model.
+You can specify any model which represents your user, e.q. 'User', 'Customer' etc. Model should be in string format.
+Then run 'bin/rake shopping_cart:install:migrations' to copy migrations to your app and 'bin/rake db:migrate'
 
-## Contributing
-Contribution directions go here.
+You should the following association for your user model "has_many :orders, :class_name => 'ShoppingCart::Order'".
 
-## License
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+Cart can process any product type quantity, you just need to add the following association to your product model(e.g. Book, Magazine etc.)
+"has_many :order_items, :class_name => 'ShoppingCart::OrderItem', as: :productable".
