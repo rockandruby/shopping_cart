@@ -1,6 +1,6 @@
 module ShoppingCart
   class Order < ApplicationRecord
-    belongs_to :user, class_name: 'User'
+    belongs_to :user, class_name: ShoppingCart.user_class
     has_many :order_items
     has_one :discount
     scope :current_order, -> {find_by_state('in_progress')}
@@ -12,5 +12,6 @@ module ShoppingCart
         sum + item.quantity * item.price
       end
     end
+
   end
 end

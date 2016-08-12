@@ -1,7 +1,7 @@
 module ShoppingCart
   module OrderItemsHelper
     def cart_empty?
-      order = current_user.orders.current_order
+      order = send("current_#{ShoppingCart.user_class.downcase}").orders.current_order
       !order || order.order_items.blank?
     end
 
