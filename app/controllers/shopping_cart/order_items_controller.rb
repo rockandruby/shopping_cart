@@ -2,6 +2,7 @@ require_dependency "shopping_cart/application_controller"
 
 module ShoppingCart
   class OrderItemsController < ApplicationController
+    load_and_authorize_resource only: [:destroy, :update]
 
     before_action :init_order
 
@@ -21,13 +22,12 @@ module ShoppingCart
     end
 
     def update
-      item = OrderItem.find(params[:id])
-      flash[:notice] = t('cart_updated') if item.update(quantity: params[:quantity])
+      flash[:notice] = t('cart_updated') if @order_item.update(quantity: params[:quantity])
       redirect_to root_path
     end
 
     def destroy
-      OrderItem.find(params[:id]).destroy
+      @order_item.destroy
       redirect_to root_path
     end
 
