@@ -1,7 +1,7 @@
 require_dependency "shopping_cart/application_controller"
 
 module ShoppingCart
-  class OrderItemsController < ::ApplicationController
+  class OrderItemsController < ApplicationController
     load_and_authorize_resource only: [:destroy, :update]
 
     before_action :init_order
