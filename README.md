@@ -17,6 +17,7 @@ You can specify any model which represents your user, e.q. 'User', 'Customer' et
 Then run 'bin/rake shopping_cart:install:migrations' to copy migrations to your app and 'bin/rake db:migrate'
 
 You should the following association for your user model "has_many :orders, :class_name => 'ShoppingCart::Order'".
+Mount to your routes.rb mount ShoppingCart::Engine => "/shopping_cart"
 
 Cart can process any product type quantity, you just need to add the following association to your product model(e.g. Book, Magazine etc.)
 "has_many :order_items, :class_name => 'ShoppingCart::OrderItem', as: :productable". Also your model must have 'price' attribute.
