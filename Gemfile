@@ -12,10 +12,3 @@ gemspec
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
-gem 'pg', '~> 0.18'
-gem 'jquery-rails'
-gem 'coffee-rails', '~> 4.2'
-gem 'haml'
-gem 'bootstrap-sass', '~> 3.3.6'
-gem 'devise'
-gem 'cancancan', '~> 1.10'
