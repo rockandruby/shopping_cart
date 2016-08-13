@@ -33,3 +33,5 @@ You form should include following fields:
  hidden field "name='id' value='@book.id'".
 
 Submit your form on the following path shopping_cart.order_items_path.
+
+If you want to add a discount do this: ShoppingCart::Discount.create(code: 123, amount: 10), amount means %
