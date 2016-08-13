@@ -19,4 +19,10 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", "~> 5.0.0"
 
   s.add_development_dependency "pg"
+  s.add_development_dependency "jquery-rails"
+  s.add_development_dependency 'coffee-rails', '~> 4.2'
+  s.add_development_dependency 'haml'
+  s.add_development_dependency 'bootstrap-sass', '~> 3.3.6'
+  s.add_development_dependency 'devise'
+  s.add_development_dependency 'cancancan', '~> 1.10'
 end
