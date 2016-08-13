@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.name        = "shopping_cart"
   s.version     = ShoppingCart::VERSION
   s.authors     = ["Igor"]
-  s.email       = ["igor.pogosian@small-team.com"]
+  s.email       = ["example@example.com"]
   s.homepage    = "https://github.com/rockandruby/shopping_cart"
   s.summary     = "Summary of ShoppingCart."
   s.description = "Description of ShoppingCart."
@@ -18,12 +18,8 @@ Gem::Specification.new do |s|
 
 
   s.add_dependency "rails", "~> 5.0.0"
-  s.add_dependency "jquery-rails"
-  s.add_dependency 'coffee-rails', '~> 4.2'
   s.add_dependency 'haml'
   s.add_dependency 'bootstrap-sass', '~> 3.3.6'
   s.add_dependency 'devise'
   s.add_dependency 'cancancan', '~> 1.10'
-
-  s.add_development_dependency "pg"
 end
