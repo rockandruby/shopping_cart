@@ -8,9 +8,12 @@ Add this line to your application's Gemfile:
 gem 'shopping_cart', github: 'rockandruby/shopping_cart'
 ```
 
+run bin/rake shopping_cart:install:migrations
+
 ## Usage
 Firstly, gem depends devise gem. Thus you app must have current_{model_name} method to perform
 shopping cart functionality. For right now cart is accessible only gor signed in users.
+
 
 Create shopping_cart initializer in config/initializers and add the following row inside: ShoppingCart.user_class = Model.
 You can specify any model which represents your user, e.q. 'User', 'Customer' etc. Model should be in string format.
