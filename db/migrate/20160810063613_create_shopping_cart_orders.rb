@@ -5,6 +5,7 @@ class CreateShoppingCartOrders < ActiveRecord::Migration[5.0]
       t.string :state, default: 'in_progress'
       t.belongs_to :user, index: true
       t.integer :order_items_count
+      t.timestamp :completed_at
       t.timestamps
     end
   end
