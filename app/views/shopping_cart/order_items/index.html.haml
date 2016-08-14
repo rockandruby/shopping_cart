@@ -28,20 +28,21 @@
           %td #{total_for_item(item)} #{t('currency')}
           %td #{link_to(image_tag('shopping_cart/delete.png'), item, method: :delete)}
       %tr
+        - subtotal = @current_order.subtotal_price
         %td{colspan: 3}
         %td
           %strong #{t('subtotal')} :
-        %td #{order_total(@current_order)[:subtotal]} #{t('currency')}
+        %td #{order_total(@current_order, subtotal)[:subtotal]} #{t('currency')}
       %tr
         %td{colspan: 3}
         %td
           %strong #{t('discount')} :
-        %td #{order_total(@current_order)[:discount]} #{t('currency')}
+        %td #{order_total(@current_order, subtotal)[:discount]} #{t('currency')}
       %tr
         %td{colspan: 3}
         %td
           %strong #{t('total')} :
-        %td #{order_total(@current_order)[:total]} #{t('currency')}
+        %td #{order_total(@current_order, subtotal)[:total]} #{t('currency')}
   .col-lg-12.col-md-12.col-sm-12
     .col-lg-3.col-md-3.col-sm-3
       =link_to(t('clear_cart'),clear_cart_path,class: 'btn btn-primary', method: :post)
@@ -50,7 +51,7 @@
     .col-lg-3.col-md-3.col-sm-3
       =link_to(t('coupon'),'',class: 'btn btn-primary', id: 'coupon')
     .col-lg-3.col-md-3.col-sm-3
-      =link_to(t('checkout'),'address_path' ,class: 'btn btn-success')
+      =link_to(t('checkout'),checkout_index_path ,class: 'btn btn-success')
 
   = form_tag(discount_path, method: :post, id: 'coupon_form')
   #add_couponModal.modal.fade{role: 'dialog', tabindex: '-1'}
@@ -66,4 +67,3 @@
         .modal-footer
           %button.btn.btn-default{"data-dismiss" => "modal", type: "button"} #{t('close')}
           %button.btn.btn-primary #{t('send')}
-

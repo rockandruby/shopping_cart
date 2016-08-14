@@ -4,12 +4,14 @@ module ShoppingCart
   class OrderItemsController < ApplicationController
     load_and_authorize_resource only: [:destroy, :update]
 
-    before_action :init_order
+    before_action :get_order
+    before_action :check_order, except: [:index, :create]
 
     def create
       model = params['model'].constantize
       product = model.find(params['id'])
       return unless product.respond_to?(:price) && OrderItem.new(quantity: params[:quantity]).valid?
+      @current_order ||= Order.create(user: @user)
       order_item = @current_order.order_items.find_by(productable: product)
       if order_item
         order_item.update(quantity: params[:quantity])
@@ -38,19 +40,11 @@ module ShoppingCart
 
     def discount
       discount = Discount.find_by_code(params[:code])
-      if discount
+      if discount && discount.order_id.nil?
         discount.update(order: @current_order)
         flash[:notice] = t('valid_coupon', amount: discount.amount)
       end
       redirect_to root_path
-    end
-
-    private
-
-    def init_order
-      user = send("current_#{ShoppingCart.user_class.downcase}")
-      order = user.orders.current_order
-      @current_order = order.blank? ? Order.create(user: user) : order
     end
 
   end
