@@ -1,5 +1,36 @@
 module ShoppingCart
   class Order < ApplicationRecord
+    include AASM
+
+    aasm :order_states, column: :state do
+      state :in_progress, initial: true
+      order_states = ShoppingCart.order_states
+      if order_states
+        order_states.each_with_index do |order_state, index|
+          state order_state.to_sym
+          next if order_state.to_sym == :canceled
+          event "run_#{order_state.to_s}".to_sym do
+            if order_state == order_states.first
+              transitions from: :in_progress, to: order_state.to_sym, after: [:arrange_order]
+            else
+              transitions from: order_state[index - 1], to: order_state.to_sym
+            end
+          end
+        end
+        if order_states.include?(:canceled)
+          event :cancel_order do
+            transitions from: :in_progress, to: :canceled
+          end
+        end
+      else
+        state :placed
+        event :place_order do
+          transitions from: :in_progress, to: :placed, after: [:arrange_order]
+        end
+      end
+
+    end
+
     belongs_to :user, class_name: ShoppingCart.user_class
     has_many :order_items
     has_one :discount
@@ -14,6 +45,12 @@ module ShoppingCart
 
     def self.current_order(user)
       Order.find_by(state: 'in_progress', user: user)
+    end
+
+    private
+
+    def arrange_order
+      update(completed_at: Time.now, total_price: subtotal_price)
     end
 
   end

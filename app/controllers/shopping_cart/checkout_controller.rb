@@ -6,8 +6,11 @@ module ShoppingCart
     before_action :check_order
 
     def create
-      @current_order.update(state: 'completed', completed_at: Time.now,
-                            total_price: @current_order.subtotal_price)
+      if states = ShoppingCart.order_states
+        @current_order.send("run_#{states[0]}!")
+      else
+        @current_order.place_order!
+      end
       flash[:notice] = t('order_placed')
       redirect_to '/'
     end

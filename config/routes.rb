@@ -1,6 +1,5 @@
 ShoppingCart::Engine.routes.draw do
   root 'order_items#index'
-  resources :orders
   resources :order_items
   resources :checkout, only: [:index, :create]
   post 'clear', to: 'order_items#destroy_items', as: 'clear_cart'

@@ -7,6 +7,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
+    aasm (4.11.0)
     actioncable (5.0.0)
       actionpack (= 5.0.0)
       nio4r (~> 1.2)
@@ -147,6 +148,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aasm
   bootstrap-sass (~> 3.3.6)
   cancancan (~> 1.10)
   coffee-rails (~> 4.2)
