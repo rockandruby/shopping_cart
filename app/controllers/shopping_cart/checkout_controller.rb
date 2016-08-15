@@ -11,6 +11,14 @@ module ShoppingCart
 
     end
 
+    def shipping
+
+    end
+
+    def payment
+
+    end
+
     def create
       if states = ShoppingCart.order_states
         @current_order.send("run_#{states[0]}!")

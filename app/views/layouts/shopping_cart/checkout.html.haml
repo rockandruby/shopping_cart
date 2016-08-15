@@ -2,6 +2,10 @@
   %ul.nav.nav-tabs
     %li{class: ('active' if current_page?('/shopping_cart/checkout'))}
       = link_to(t('address'), checkout_index_path)
+    - ShoppingCart.order_steps.try(:each) do |step|
+      - step = step.to_s
+      %li{class: ('active' if current_page?('/shopping_cart/checkout/' + step))}
+        = link_to(t(step), '/shopping_cart/checkout/' + step)
   =yield
 
 =render template: 'layouts/shopping_cart/application'
