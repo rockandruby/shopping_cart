@@ -4,11 +4,11 @@ module ShoppingCart
 
     aasm :order_states, column: :state do
       state :in_progress, initial: true
+      state :canceled
       order_states = ShoppingCart.order_states
       if order_states
         order_states.each_with_index do |order_state, index|
           state order_state.to_sym
-          next if order_state.to_sym == :canceled
           event "run_#{order_state.to_s}".to_sym do
             if order_state == order_states.first
               transitions from: :in_progress, to: order_state.to_sym, after: [:arrange_order]
@@ -17,18 +17,15 @@ module ShoppingCart
             end
           end
         end
-        if order_states.include?(:canceled)
-          event :cancel_order do
-            transitions from: :in_progress, to: :canceled
-          end
-        end
       else
         state :placed
         event :place_order do
           transitions from: :in_progress, to: :placed, after: [:arrange_order]
         end
       end
-
+      event :cancel_order do
+        transitions from: :in_progress, to: :canceled
+      end
     end
 
     belongs_to :user, class_name: ShoppingCart.user_class
