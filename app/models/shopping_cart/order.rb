@@ -28,6 +28,28 @@ module ShoppingCart
       end
     end
 
+    aasm :order_steps, column: :step do
+      state :address, initial: true
+      state :confirm
+      order_steps = ShoppingCart.order_steps
+      if order_steps
+        order_steps.each_with_index do |order_step, index|
+          state order_step.to_sym
+          event "run_#{order_step.to_s}".to_sym do
+            if order_step == order_steps.first
+              transitions from: :address, to: order_step.to_sym
+            else
+              transitions from: order_step[index - 1], to: order_step.to_sym
+            end
+          end
+        end
+      else
+        event :complete do
+          transitions from: :address, to: :confirm
+        end
+      end
+    end
+
     belongs_to :user, class_name: ShoppingCart.user_class
     has_many :order_items
     has_one :discount

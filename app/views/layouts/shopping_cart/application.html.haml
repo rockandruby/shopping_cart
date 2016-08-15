@@ -9,4 +9,4 @@
   %body.container
     %p.notice= notice
     %p.alert= alert
-    = yield
+    = content_for?(:checkout) ? yield(:checkout) : yield

@@ -1,0 +1,7 @@
+-content_for :checkout do
+  %ul.nav.nav-tabs
+    %li{class: ('active' if current_page?('/shopping_cart/checkout'))}
+      = link_to(t('address'), checkout_index_path)
+  =yield
+
+=render template: 'layouts/shopping_cart/application'

@@ -5,6 +5,12 @@ module ShoppingCart
     before_action :get_order
     before_action :check_order
 
+    layout 'shopping_cart/checkout'
+
+    def index
+
+    end
+
     def create
       if states = ShoppingCart.order_states
         @current_order.send("run_#{states[0]}!")
