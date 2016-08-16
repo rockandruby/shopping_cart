@@ -1,0 +1,23 @@
+.row
+  = form_for @address, url: add_address_path, method: :post do |f|
+    .form-group
+      = f.text_field :first_name, class: 'form-control', placeholder: t('shopping_cart.first_name'), required: true
+    .form-group
+      = f.text_field :last_name, class: 'form-control', placeholder: t('shopping_cart.last_name'), required: true
+    .form-group
+      = f.text_field :city, class: 'form-control', placeholder: t('shopping_cart.city')
+    .form-group
+      = f.text_field :phone, class: 'form-control phone', placeholder: t('shopping_cart.phone'), required: true
+    .form-group
+      = f.text_area :details, class: 'form-control phone', placeholder: t('shopping_cart.details')
+    = f.submit nil, class: 'btn btn-primary'
+.row
+  .col-lg-12.col-md-12.col-sm-12
+    -if @address.errors.any?
+      %ul.alert.alert-danger{role: 'alert'}
+        -@address.errors.full_messages.each do |msg|
+          %li
+            %span.glyphicon.glyphicon-exclamation-sign{aria:{hidden: true}}
+            =msg
+
+  .col-lg-4.col-md-4.col-sm-4

@@ -1,56 +1,56 @@
 .row
   .col-lg-12
     = image_tag('shopping_cart/back.png')
-    =link_to(t('back'),'/')
+    =link_to(t('shopping_cart.back'),'/')
 -if !@current_order || @current_order.order_items_count == 0
   .col-lg-6.col-md-6.col-sm-6.col-lg-offset-4.col-md-offset-4.col-sm-offset-4
-    %h3 #{t('empty_cart')}
+    %h3 #{t('shopping_cart.back')}
     = image_tag('shopping_cart/empty_cart.png')
 -else
   %table.table
     %thead
       %tr
-        %th #{t('product')}
-        %th #{t('price')}
-        %th #{t('qty')}
-        %th #{t('total')}
+        %th #{t('shopping_cart.product')}
+        %th #{t('shopping_cart.price')}
+        %th #{t('shopping_cart.qty')}
+        %th #{t('shopping_cart.total')}
         %th
     %tbody
       - @current_order.order_items.each do |item|
         %tr
           %td #{item.productable.title}
-          %td #{item.price} #{t('currency')}
+          %td #{item.price} #{t('shopping_cart.currency')}
           %td
             = form_tag order_item_path(item), method: 'patch' do
               = text_field_tag :quantity, item.quantity, type: 'number', required: 'true'
               = button_tag image_tag('shopping_cart/refresh.png')
-          %td #{total_for_item(item)} #{t('currency')}
+          %td #{total_for_item(item)} #{t('shopping_cart.currency')}
           %td #{link_to(image_tag('shopping_cart/delete.png'), item, method: :delete)}
       %tr
-        - subtotal = @current_order.subtotal_price
         %td{colspan: 3}
         %td
-          %strong #{t('subtotal')} :
-        %td #{order_total(@current_order, subtotal)[:subtotal]} #{t('currency')}
+          %strong #{t('shopping_cart.subtotal')} :
+        %td #{@current_order.subtotal_price} #{t('shopping_cart.currency')}
+      - if @current_order.discount
+        %tr
+          %td{colspan: 3}
+          %td
+            %strong #{t('shopping_cart.discount')} :
+          %td #{calculate_discount(@current_order)} #{t('shopping_cart.currency')}
       %tr
         %td{colspan: 3}
         %td
-          %strong #{t('discount')} :
-        %td #{order_total(@current_order, subtotal)[:discount]} #{t('currency')}
-      %tr
-        %td{colspan: 3}
-        %td
-          %strong #{t('total')} :
-        %td #{order_total(@current_order, subtotal)[:total]} #{t('currency')}
+          %strong #{t('shopping_cart.total')} :
+        %td #{@current_order.total_price} #{t('shopping_cart.currency')}
   .col-lg-12.col-md-12.col-sm-12
     .col-lg-3.col-md-3.col-sm-3
-      =link_to(t('clear_cart'),clear_cart_path,class: 'btn btn-primary', method: :post)
+      =link_to(t('shopping_cart.clear_cart'),clear_cart_path,class: 'btn btn-primary', method: :post)
     .col-lg-3.col-md-3.col-sm-3
-      =link_to(t('go_shopping'),'/',class: 'btn btn-primary')
+      =link_to(t('shopping_cart.go_shopping'),'/',class: 'btn btn-primary')
     .col-lg-3.col-md-3.col-sm-3
-      =link_to(t('coupon'),'',class: 'btn btn-primary', id: 'coupon')
+      =link_to(t('shopping_cart.coupon'),'',class: 'btn btn-primary', id: 'coupon')
     .col-lg-3.col-md-3.col-sm-3
-      =link_to(t('checkout'),checkout_index_path ,class: 'btn btn-success')
+      =link_to(t('shopping_cart.checkout'),checkout_index_path ,class: 'btn btn-success')
 
   = form_tag(discount_path, method: :post, id: 'coupon_form')
   #add_couponModal.modal.fade{role: 'dialog', tabindex: '-1'}
@@ -59,10 +59,10 @@
         .modal-header
           %button.close{"aria-label" => "Close", "data-dismiss" => "modal", type: "button"}
             %span{"aria-hidden" => "true"} &times;
-          %h4.modal-title #{t('coupon_code')}
+          %h4.modal-title #{t('shopping_cart.code')}
         .modal-body
           =text_field_tag 'code', '', required: true
           %i.error_message
         .modal-footer
-          %button.btn.btn-default{"data-dismiss" => "modal", type: "button"} #{t('close')}
-          %button.btn.btn-primary #{t('send')}
+          %button.btn.btn-default{"data-dismiss" => "modal", type: "button"} #{t('shopping_cart.close')}
+          %button.btn.btn-primary #{t('shopping_cart.send')}

@@ -1,0 +1,54 @@
+.row
+  .col-lg-3
+    %h4 #{t('shopping_cart.address')}
+    %div #{t('shopping_cart.first_name')}: #{@current_order.address.first_name}
+    %div #{t('shopping_cart.last_name')}: #{@current_order.address.last_name}
+    %div #{t('shopping_cart.city')}: #{@current_order.address.city}
+    %div #{t('shopping_cart.phone')}: #{@current_order.address.phone}
+    %div #{t('shopping_cart.details')}: #{@current_order.address.details}
+
+  - if ShoppingCart::order_steps && ShoppingCart::order_steps.include?(:shipping)
+    .col-lg-3
+      %h4 #{t('shopping_cart.delivery')}
+      %div #{t('shopping_cart.delivery')}: #{@current_order.shipping.title}
+  - if ShoppingCart::order_steps && ShoppingCart::order_steps.include?(:payment)
+    .col-lg-3
+      %h4 #{t('shopping_cart.payment')}
+      %div #{t('shopping_cart.first_name')}: #{@current_order.credit_card.first_name}
+      %div #{t('shopping_cart.last_name')}: #{@current_order.credit_card.last_name}
+      %div #{t('shopping_cart.card_number')}: #{@current_order.credit_card.number}
+
+%table.table
+  %thead
+    %tr
+      %th #{t('shopping_cart.product')}
+      %th #{t('shopping_cart.price')}
+      %th #{t('shopping_cart.qty')}
+      %th #{t('shopping_cart.total')}
+  %tbody
+    - @current_order.order_items.each do |item|
+      %tr
+        %td #{item.productable.title}
+        %td #{item.price} #{t('shopping_cart.currency')}
+        %td #{item.quantity}
+        %td #{total_for_item(item)} #{t('shopping_cart.currency')}
+    %tr
+      %td{colspan: 2}
+      %td
+        %strong #{t('shopping_cart.subtotal')} :
+      %td #{@current_order.subtotal_price} #{t('shopping_cart.currency')}
+    %tr
+      %td{colspan: 2}
+      %td
+        %strong #{t('shopping_cart.discount')} :
+      %td #{calculate_discount(@current_order)} #{t('shopping_cart.currency')}
+    %tr
+      %td{colspan: 2}
+      %td
+        %strong #{t('shopping_cart.total')} :
+      %td #{@current_order.total_price} #{t('shopping_cart.currency')}
+.col-lg-12.col-md-12.col-sm-12
+  .pull-right.col-lg-offset-1.col-md-offset-1.col-sm-offset-1
+    =link_to(t('shopping_cart.place_order'),checkout_index_path , method: :post, class: 'btn btn-success')
+  .pull-right
+    =link_to(t('shopping_cart.go_shopping'),'/',class: 'btn btn-primary')

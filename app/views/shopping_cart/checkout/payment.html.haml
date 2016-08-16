@@ -1,1 +1,26 @@
-payment
+= form_for @credit_card, url: add_payment_path, method: :post do |f|
+  .form-group
+    = f.text_field :first_name, class: 'form-control', placeholder: t('shopping_cart.first_name'), required: true
+  .form-group
+    = f.text_field :last_name, class: 'form-control', placeholder: t('shopping_cart.last_name'), required: true
+  .form-group
+    =f.text_field :number, class: 'form-control', placeholder: t('shopping_cart.card_number'), required: true
+  %div #{t('expire')}:
+  .col-lg-3.col-md-3.col-sm-3
+    .form-group
+      =select_month(Date.today,{}, class: 'form-control', name: 'credit_card[expiration_month]')
+  .col-lg-3.col-md-3.col-sm-3
+    .form-group
+      =select_year(Date.today,{},class: 'form-control', name: 'credit_card[expiration_year]')
+  .col-lg-3.col-md-3.col-sm-3
+    =f.text_field :cvv, class: 'form-control', placeholder: 'CVV', type: 'password', required: true
+  .col-lg-12.col-md-12.col-sm-12
+    .form-group
+      = f.submit nil, class: 'btn btn-primary'
+.col-lg-12.col-md-12.col-sm-12
+  -if @credit_card.errors.any?
+    %ul.alert.alert-danger{role: 'alert'}
+      - @credit_card.errors.full_messages.each do |msg|
+        %li
+          %span.glyphicon.glyphicon-exclamation-sign{aria:{hidden: true}}
+          =msg
