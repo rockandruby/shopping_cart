@@ -30,7 +30,7 @@ module ShoppingCart
     def add_address
       return render :index unless @address.update(address_params)
       @current_order.update(step: 0) unless @current_order.step
-      redirect_to @steps ? send("#{@steps[0]}_path") : complete_path
+      redirect_to @steps ? "/shopping_cart/checkout/#{@steps[0]}" : '/shopping_cart/checkout/complete'
     end
 
     def add_shipping
@@ -70,9 +70,7 @@ module ShoppingCart
     end
 
     def check_step(current_step)
-      @steps.index(current_step) <= @current_order.step
-    rescue ArgumentError
-      redirect_to checkout_index_path
+      @steps.index(current_step) <= @current_order.step if @current_order.step
     end
 
     def update_step(current_step)
@@ -90,8 +88,8 @@ module ShoppingCart
     end
 
     def redirect_by_step(current_step)
-      return redirect_to complete_path if !@steps || current_step == @steps.last
-      redirect_to send("#{@steps[@steps.index(current_step) + 1]}_path")
+      return redirect_to '/shopping_cart/checkout/complete' if !@steps || current_step == @steps.last
+      redirect_to "/shopping_cart/checkout/#{@steps[@steps.index(current_step) + 1]}"
     end
   end
 end

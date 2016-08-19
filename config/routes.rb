@@ -4,6 +4,7 @@ ShoppingCart::Engine.routes.draw do
   resources :checkout, only: [:index, :create]
   scope :checkout do
     ShoppingCart::order_steps.try(:each) do |step|
+      next unless [:payment, :shipping].include?(step)
       get "/#{step}", to: "checkout##{step}"
       post "/add_#{step}", to: "checkout#add_#{step}"
     end

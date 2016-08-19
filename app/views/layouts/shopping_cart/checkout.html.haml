@@ -1,13 +1,13 @@
 -content_for :checkout do
   %ul.nav.nav-tabs
     %li{class: ('active' if current_page?('/shopping_cart/checkout'))}
-      = link_to(t('shopping_cart.address'), checkout_index_path)
+      = link_to(t('shopping_cart.address'), '/shopping_cart/checkout')
     - ShoppingCart.order_steps.try(:each) do |step|
       - step = step.to_s
       %li{class: ('active' if current_page?('/shopping_cart/checkout/' + step))}
         = link_to(t(step), '/shopping_cart/checkout/' + step)
     %li{class: ('active' if current_page?('/shopping_cart/checkout/complete'))}
-      = link_to(t('shopping_cart.complete'), complete_path)
+      = link_to(t('shopping_cart.complete'), '/shopping_cart/checkout/complete')
   .row{style: 'padding: 15px'}
     - if current_page?('/shopping_cart/checkout/complete')
       .col-lg-12
