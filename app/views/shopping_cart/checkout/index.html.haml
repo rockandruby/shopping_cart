@@ -1,35 +1,23 @@
-%table.table
-  %thead
-    %tr
-      %th #{t('product')}
-      %th #{t('price')}
-      %th #{t('qty')}
-      %th #{t('total')}
-  %tbody
-    - @current_order.order_items.each do |item|
-      %tr
-        %td #{item.productable.title}
-        %td #{item.price} #{t('currency')}
-        %td #{item.quantity}
-        %td #{total_for_item(item)} #{t('currency')}
-    %tr
-      - subtotal = @current_order.subtotal_price
-      %td{colspan: 2}
-      %td
-        %strong #{t('subtotal')} :
-      %td #{order_total(@current_order, subtotal)[:subtotal]} #{t('currency')}
-    %tr
-      %td{colspan: 2}
-      %td
-        %strong #{t('discount')} :
-      %td #{order_total(@current_order, subtotal)[:discount]} #{t('currency')}
-    %tr
-      %td{colspan: 2}
-      %td
-        %strong #{t('total')} :
-      %td #{order_total(@current_order, subtotal)[:total]} #{t('currency')}
-.col-lg-12.col-md-12.col-sm-12
-  .pull-right.col-lg-offset-1.col-md-offset-1.col-sm-offset-1
-    =link_to(t('place order'),checkout_index_path , method: :post, class: 'btn btn-success')
-  .pull-right
-    =link_to(t('go_shopping'),'/',class: 'btn btn-primary')
+.row
+  = form_for @address, url: add_address_path, method: :post do |f|
+    .form-group
+      = f.text_field :first_name, class: 'form-control', placeholder: t('shopping_cart.first_name'), required: true
+    .form-group
+      = f.text_field :last_name, class: 'form-control', placeholder: t('shopping_cart.last_name'), required: true
+    .form-group
+      = f.text_field :city, class: 'form-control', placeholder: t('shopping_cart.city')
+    .form-group
+      = f.text_field :phone, class: 'form-control phone', placeholder: t('shopping_cart.phone'), required: true
+    .form-group
+      = f.text_area :details, class: 'form-control phone', placeholder: t('shopping_cart.details')
+    = f.submit nil, class: 'btn btn-primary'
+.row
+  .col-lg-12.col-md-12.col-sm-12
+    -if @address.errors.any?
+      %ul.alert.alert-danger{role: 'alert'}
+        -@address.errors.full_messages.each do |msg|
+          %li
+            %span.glyphicon.glyphicon-exclamation-sign{aria:{hidden: true}}
+            =msg
+
+  .col-lg-4.col-md-4.col-sm-4

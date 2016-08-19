@@ -1,0 +1,30 @@
+-content_for :checkout do
+  %ul.nav.nav-tabs
+    %li{class: ('active' if current_page?('/shopping_cart/checkout'))}
+      = link_to(t('shopping_cart.address'), '/shopping_cart/checkout')
+    - ShoppingCart.order_steps.try(:each) do |step|
+      - step = step.to_s
+      %li{class: ('active' if current_page?('/shopping_cart/checkout/' + step))}
+        = link_to(t(step), '/shopping_cart/checkout/' + step)
+    %li{class: ('active' if current_page?('/shopping_cart/checkout/complete'))}
+      = link_to(t('shopping_cart.complete'), '/shopping_cart/checkout/complete')
+  .row{style: 'padding: 15px'}
+    - if current_page?('/shopping_cart/checkout/complete')
+      .col-lg-12
+        =yield
+    - else
+      .col-lg-7
+        =yield
+      .col-lg-4.col-lg-offset-1
+        %h3 #{t('shopping_cart.summary')}
+        - subtotal = @current_order.subtotal_price
+        %strong #{t('shopping_cart.subtotal')}: #{subtotal} #{t('shopping_cart.currency')}
+        - if @current_order.discount
+          %br/
+          %strong #{t('shopping_cart.discount')}: #{calculate_discount(@current_order)} #{t('shopping_cart.currency')}
+        - if @current_order.shipping
+          %br/
+          %strong #{t('shopping_cart.delivery')}: #{@current_order.shipping_price} #{t('shopping_cart.currency')}
+        %h4 #{t('shopping_cart.total')}: #{@current_order.total_price} #{t('shopping_cart.currency')}
+
+=render template: 'layouts/shopping_cart/application'

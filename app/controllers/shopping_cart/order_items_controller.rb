@@ -19,12 +19,12 @@ module ShoppingCart
         @current_order.order_items.create(productable: product,
                                           price: product.price, quantity: params[:quantity])
       end
-      flash[:notice] = t('item_added')
+      flash[:notice] = t('shopping_cart.item_added')
       redirect_to root_path
     end
 
     def update
-      flash[:notice] = t('cart_updated') if @order_item.update(quantity: params[:quantity])
+      flash[:notice] = t('shopping_cart.cart_updated') if @order_item.update(quantity: params[:quantity])
       redirect_to root_path
     end
 
@@ -42,7 +42,7 @@ module ShoppingCart
       discount = Discount.find_by_code(params[:code])
       if discount && discount.order_id.nil?
         discount.update(order: @current_order)
-        flash[:notice] = t('valid_coupon', amount: discount.amount)
+        flash[:notice] = t('shopping_cart.valid_coupon', amount: discount.amount)
       end
       redirect_to root_path
     end

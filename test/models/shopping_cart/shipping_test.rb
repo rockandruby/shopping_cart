@@ -1,7 +1,7 @@
 require 'test_helper'
 
 module ShoppingCart
-  class OrderTest < ActiveSupport::TestCase
+  class ShippingTest < ActiveSupport::TestCase
     # test "the truth" do
     #   assert true
     # end

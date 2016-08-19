@@ -1,0 +1,6 @@
+= form_tag add_shipping_path, method: :post do
+  - @shippings.each do |delivery|
+    .form-group
+      = radio_button_tag :id, delivery.id, delivery.id == @current_order.shipping.try(:id)
+      = label_tag("id_#{delivery.id}", "#{delivery.title} - #{delivery.price}")
+  = submit_tag nil, class: 'btn btn-primary'

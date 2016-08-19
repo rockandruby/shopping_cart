@@ -16,7 +16,7 @@ module ShoppingCart
     end
 
     def check_order
-      redirect_to root_path unless @current_order
+      redirect_to root_path unless @current_order && @current_order.order_items_count > 0
     end
 
   end
