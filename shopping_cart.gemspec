@@ -8,10 +8,10 @@ Gem::Specification.new do |s|
   s.name        = "shopping_cart"
   s.version     = ShoppingCart::VERSION
   s.authors     = ["Igor"]
-  s.email       = ["example@example.com"]
+  s.email       = ["igor12306@mail.ru"]
   s.homepage    = "https://github.com/rockandruby/shopping_cart"
-  s.summary     = "Summary of ShoppingCart."
-  s.description = "Description of ShoppingCart."
+  s.summary     = "Shopping cart and checkout"
+  s.description = "Adds shopping cart and checkout functionality to your shop. "
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
@@ -22,4 +22,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'bootstrap-sass', '~> 3.3.6'
   s.add_dependency 'devise'
   s.add_dependency 'cancancan', '~> 1.10'
+  s.add_dependency 'aasm'
+  s.add_dependency 'rails-i18n', '~> 5.0.0'
 end

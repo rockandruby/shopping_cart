@@ -2,11 +2,13 @@ PATH
   remote: .
   specs:
     shopping_cart (0.1.0)
+      aasm
       bootstrap-sass (~> 3.3.6)
       cancancan (~> 1.10)
       devise
       haml
       rails (~> 5.0.0)
+      rails-i18n (~> 5.0.0)
 
 GEM
   remote: https://rubygems.org/
