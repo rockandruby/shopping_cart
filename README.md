@@ -57,3 +57,6 @@ You form should include following fields:
 
  You can override views and layout for shopping cart by generating them to your project with
 'rails g shopping_cart:views'.
+
+I18n:
+ Run 'rails g shopping_cart:translate' to generate internationalization file to your app.
