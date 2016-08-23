@@ -1,5 +1,5 @@
 # ShoppingCart
-Simple gem which adds shopping cart to your shop with some tricks.
+Simple gem which adds shopping cart and checkout ability to your shop.
 
 ## Installation
 Add this line to your application's Gemfile:
@@ -8,30 +8,52 @@ Add this line to your application's Gemfile:
 gem 'shopping_cart', github: 'rockandruby/shopping_cart'
 ```
 
-run bin/rake shopping_cart:install:migrations
-
 ## Usage
-Firstly, gem depends devise gem. Thus you app must have current_{model_name} method to perform
-shopping cart functionality. For right now cart is accessible only gor signed in users.
+ Define root in your routes and run 'rails g shopping_cart:config' to install shopping cart.
 
+ Firstly, gem depends on devise. Thus your app must have current_{model_name} method to perform
+shopping cart functionality. For right now cart is accessible only for signed in users. Devise
+added as a dependency for cart thus you don't need add devise to your gemfile. All you need - to generate
+proper model for devise.
 
-Create shopping_cart initializer in config/initializers and add the following row inside: ShoppingCart.user_class = Model.
-You can specify any model which represents your user, e.q. 'User', 'Customer' etc. Model should be in string format.
-Then run 'bin/rake shopping_cart:install:migrations' to copy migrations to your app and 'bin/rake db:migrate'
+ In config/initializers you will find shopping_cart initializer. By default, name of your user model is
+'User' but you can override it by changing ShoppingCart.user_class = 'User' with proper model name in
+string format.
 
-You should the following association for your user model "has_many :orders, :class_name => 'ShoppingCart::Order', foreign_key: 'user_id'".
-Mount to your routes.rb mount ShoppingCart::Engine => "/shopping_cart"
+ By default, you have 4 steps for checkout: address, payment, shipping and complete. Payment and shipping
+are optional. In shopping cart initializer you have ShoppingCart.order_steps = %i(shipping payment) array.
+If you want to delete step, just delete it from array. If you want to delete optional steps at all, just
+comment the array ans you will have only address and complete steps.
 
-Add Rails.application.config.assets.precompile += %w( shopping_cart/*) to config/initializers/assets.rb
+ Of course, you can add your own steps. Just put the name of your step to steps' array. In your routes
+you should create a route in the following format:
 
-Cart can process any product type quantity, you just need to add the following association to your product model(e.g. Book, Magazine etc.)
-"has_many :order_items, :class_name => 'ShoppingCart::OrderItem', as: :productable". Also your model must have 'price' attribute.
+   namespace 'shopping_cart' do
+     get '/checkout/foo', to: 'my_steps#foo', as: 'foo'
+   end
+
+where 'foo' - the name of your step and 'my_steps' - your steps controller. Run
+'rails g shopping_cart:controller MySteps' to generate controller for your steps. Don't forget that
+all entities should be in shopping_cart namespace. For instance, to create model for your steps you
+suppose to run shopping_cart/YourModelName.
+
+ When you install shopping cart, you retrieve migrations for default steps. You can delete proper migration for
+step you want to skip. Then run rails db:migrate to run migrations.
+
+ You should sign the following association for your user model "has_many :orders,
+:class_name => 'ShoppingCart::Order'".
+
+ Cart can process any product type quantity, you just need to add the following association to
+your product model(e.g. Book, Magazine etc.)
+"has_many :order_items, :class_name => 'ShoppingCart::OrderItem', as: :productable".
+Also your model must have 'price' attribute.
 
 You form should include following fields:
  hidden field "name='model' value='your model class'" e.g. "value='@book.class'".
  "name='quantity'".
  hidden field "name='id' value='@book.id'".
 
-Submit your form on the following path shopping_cart.order_items_path.
+ Submit your form on the following path shopping_cart.order_items_path.
 
-If you want to add a discount do this: ShoppingCart::Discount.create(code: 123, amount: 10), amount means %
+ You can override views and layout for shopping cart by generating them to your project with
+'rails g shopping_cart:views'.
