@@ -29,6 +29,7 @@ en:
     payment: Payment
     card_number: Card number
     item_added: You added item to cart
+    choose_shipping: You need to choose shipping method
     cart_updated: You updated a cart
     valid_coupon: Your discount is %{amount}% from cart total price
     order_placed: Congratulations! Yout order placed successfully. Will get in touch asap.

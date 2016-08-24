@@ -35,5 +35,13 @@ end"
          \nend\n"
       end
     end
+
+    desc 'create views for steps'
+
+    def create_views
+      steps.each do |step|
+        create_file "app/views/shopping_cart/#{name.underscore}/#{step}.html.haml"
+      end
+    end
   end
 end

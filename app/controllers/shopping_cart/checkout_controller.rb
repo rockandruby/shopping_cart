@@ -34,6 +34,10 @@ module ShoppingCart
     end
 
     def add_shipping
+      unless params[:id]
+        flash[:alert] = t('shopping_cart.choose_shipping')
+        return redirect_to :back
+      end
       shipping = Shipping.find(params[:id])
       @current_order.update(shipping: shipping)
       update_step(:shipping)

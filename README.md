@@ -42,8 +42,8 @@ step you want to skip. Then run rails db:migrate to run migrations.
  Of course, you can add your own steps. Just put the name of your step to steps' array in initializer and
 restart your app .
 
- Run "rails g shopping_cart:controller MySteps 'first_step' 'second_step' " to generate controller
-proper actions and routes for your steps. Don't forget that steps' names should be equal to names in
+ Run "rails g shopping_cart:controller MySteps 'first_step' 'second_step' " to generate controller,
+proper actions, views and routes for your steps. Don't forget that steps' names should be equal to names in
 your initializer.
 Don't forget that all entities should be in shopping_cart namespace. For instance, to create model for
 your steps you suppose to run shopping_cart/YourModelName.
