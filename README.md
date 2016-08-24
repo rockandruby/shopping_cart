@@ -24,21 +24,20 @@ are optional. In shopping cart initializer you have ShoppingCart.order_steps = %
 If you want to delete step, just delete it from array. If you want to delete optional steps at all, just
 comment the array ans you will have only address and complete steps.
 
+ Notice!!! Order of elements in ShoppingCart.order_steps are equal to steps' order in your app.
+
  Notice!!!! If you use shipping step you should create needed shippings like
 ShoppingCart::Shipping.create(title:'Shipping title', price: 123).
 
  When you install shopping cart, you retrieve migrations for default steps. You can delete proper migration for
 step you want to skip. Then run rails db:migrate to run migrations.
 
- Of course, you can add your own steps. Just put the name of your step to steps' array. In your routes
-you should create a route in the following format:
+ Of course, you can add your own steps. Just put the name of your step to steps' array in initializer and
+restart your app .
 
-   namespace 'shopping_cart' do
-     get '/checkout/your_step', to: 'my_steps#your_step'
-     post '/checkout/add_your_step', to: 'my_steps#add_your_step'
-   end
-
- Run 'rails g shopping_cart:controller MySteps' to generate controller and proper actions for your steps.
+ Run "rails g shopping_cart:controller MySteps 'first_step' 'second_step' " to generate controller
+proper actions and routes for your steps. Don't forget that steps' names should be equal to names in
+your initializer.
 Don't forget that all entities should be in shopping_cart namespace. For instance, to create model for
 your steps you suppose to run shopping_cart/YourModelName.
 
