@@ -18,16 +18,20 @@ gem 'shopping_cart', github: 'rockandruby/shopping_cart'
         <p class="alert"><%= alert %></p>
 
 
- Firstly, gem depends on devise. Thus your app must have current_{model_name} method to perform
+ Firstly, gem depends on devise. Thus your app must have `current_{model_name}` method to perform
 shopping cart functionality. For right now cart is accessible only for signed in users. Devise
 added as a dependency for cart thus you don't need add devise to your gemfile. All you need - to install device.
 
- In config/initializers you will find shopping_cart initializer. By default, name of your user model is
-'User' but you can override it by changing ShoppingCart.user_class = 'User' with proper model name in
+ In `config/initializer`s you will find shopping_cart initializer. By default, name of your user model is
+'User' but you can override it by changing `ShoppingCart.user_class = 'User'` with proper model name in
 string format.
 
- By default, you have 4 steps for checkout: address, payment, shipping and complete. Payment and shipping
-are optional. In shopping cart initializer you have ShoppingCart.order_steps = %i(shipping payment) array.
+ By default, you have 4 steps for checkout:
+ - address
+ - payment
+ - shipping
+ - complete.
+ Payment and shipping are optional. In shopping cart initializer you have `ShoppingCart.order_steps = %i(shipping payment)`.
 If you want to delete step, just delete it from array. If you want to delete optional steps at all, just
 comment the array ans you will have only address and complete steps.
 
@@ -36,22 +40,23 @@ comment the array ans you will have only address and complete steps.
 ##### Notice!!!! If you use shipping step you should create needed shippings e.g. ShoppingCart::Shipping.create(title:'Shipping title', price: 123).
 
  When you install shopping cart, you retrieve migrations for default steps. You can delete proper migration for
-step you want to skip. Then run rails db:migrate to run migrations.
+step you want to skip. Then run `rails db:migrate` to run migrations.
 
  Of course, you can add your own steps. Just put the name of your step to steps' array in initializer and
 restart your app .
 
- Run "rails g shopping_cart:controller MySteps 'first_step' 'second_step' " to generate controller,
+ Run `rails g shopping_cart:controller MySteps 'first_step' 'second_step'` to generate controller,
 proper actions, views and routes for your steps. Don't forget that steps' names should be equal to names in
 your initializer.
+
 Don't forget that all entities should be in shopping_cart namespace. For instance, to create model for
 your steps you suppose to run shopping_cart/YourModelName.
 
 Your step controller will have 3 main methods:
-1) check_step(:your_step) which checks whether user able to proceed
+- `check_step(:your_step)` which checks whether user able to proceed
    action and returns true/false.
-2) update_step(:your_step) which allows user to proceed to next step.
-3) redirect_by_step(:your_step) which redirects to next step.
+- `update_step(:your_step)` which allows user to proceed to next step.
+- `redirect_by_step(:your_step)` which redirects to next step.
 
 Below simple example how it works:
  def your_step
