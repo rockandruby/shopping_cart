@@ -61,37 +61,41 @@ Your step controller will have 3 main methods:
 
 Below simple example how it works:
 
- def your_step
+ `def your_step
  
   return redirect_to :back unless check_step(:your_step)
   
   //do some code
   
- end
+ end`
 
  `def add_your_step
+ 
    //do some code
+   
    update_step(:your_step)
+   
    redirect_by_step(:your_step)
+   
  end`
-So
 
- You should add the following association for your user model "has_many :orders,
-:class_name => 'ShoppingCart::Order'".
+ You should add the following association for your user model `has_many :orders, :class_name => 'ShoppingCart::Order'`.
 
- Cart can process any product type quantity, you just need to add the following association to
-your product model(e.g. Book, Magazine etc.)
-"has_many :order_items, :class_name => 'ShoppingCart::OrderItem', as: :productable".
+ Cart can process any product type quantity, you just need to add the following association to your product model(e.g. Book, Magazine etc.) `has_many :order_items, :class_name => 'ShoppingCart::OrderItem', as: :productable`.
 Also your model must have 'price' attribute.
 
 You form should include following fields:
- hidden field "name='model' value='your model class'" e.g. "value='@book.class'".
- text field "name='quantity'" and hidden field "name='id' value='@book.id'". For instance,
+ `hidden field "name='model' value='your model class'" e.g. "value='@book.class'"`.
+ `text field "name='quantity'" and hidden field "name='id' value='@book.id'"`. For instance,
 
  =form_tag(shopping_cart.order_items_path, class: 'form-inline') do
+ 
    =text_field_tag(:quantity, '', class: 'form-control', type: 'number', required: true, min: 1)
+   
    =hidden_field_tag(:id, @book.id)
+   
    =hidden_field_tag(:model, @book.class)
+   
    =submit_tag
 
  = link_to('cart', shopping_cart.order_items_path)
@@ -99,11 +103,11 @@ You form should include following fields:
  Submit your form on the following path shopping_cart.order_items_path.
 
  You can override views and layout for shopping cart by generating them to your project with
-'rails g shopping_cart:views'.
+`rails g shopping_cart:views`.
 
  Also, you're able to use discount for your cart. Just create the proper discount, for example:
-ShoppingCart::Discount.create(code: 'verification code', amount: 10), where amount is percentage.
+`ShoppingCart::Discount.create(code: 'verification code', amount: 10)`, where amount is percentage.
 If you don't need discount ability, delete the proper button from view.
 
 I18n:
- Run 'rails g shopping_cart:translate' to generate internationalization file to your app.
+ Run `rails g shopping_cart:translate` to generate internationalization file to your app.
