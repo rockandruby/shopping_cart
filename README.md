@@ -50,13 +50,13 @@ your steps you suppose to run shopping_cart/YourModelName.
 
 Your step controller will have 3 main methods:
 1) check_step(:your_step) which checks whether user able to proceed
-   action, otherwise it will be redirected to previous step.
+   action and returns true/false.
 2) update_step(:your_step) which allows user to proceed to next step.
 3) redirect_by_step(:your_step) which redirects to next step.
 
 Below simple example how it works:
  def your_step
-  check_step(:your_step)
+  return redirect_to :back unless check_step(:your_step)
   //do some code
  end
 
