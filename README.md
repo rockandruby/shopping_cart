@@ -31,6 +31,7 @@ string format.
  - payment
  - shipping
  - complete.
+ 
  Payment and shipping are optional. In shopping cart initializer you have `ShoppingCart.order_steps = %i(shipping payment)`.
 If you want to delete step, just delete it from array. If you want to delete optional steps at all, just
 comment the array ans you will have only address and complete steps.
