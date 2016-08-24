@@ -11,6 +11,13 @@ gem 'shopping_cart', github: 'rockandruby/shopping_cart'
 ## Usage
  Define root in your routes and run 'rails g shopping_cart:config' to install shopping cart.
 
+  Ensure you have flash messages in app/views/layouts/application.html.erb.
+      For example:
+
+        <p class="notice"><%= notice %></p>
+        <p class="alert"><%= alert %></p>
+
+
  Firstly, gem depends on devise. Thus your app must have current_{model_name} method to perform
 shopping cart functionality. For right now cart is accessible only for signed in users. Devise
 added as a dependency for cart thus you don't need add devise to your gemfile. All you need - to install device.
@@ -72,7 +79,7 @@ You form should include following fields:
  hidden field "name='model' value='your model class'" e.g. "value='@book.class'".
  text field "name='quantity'" and hidden field "name='id' value='@book.id'". For instance,
 
- =form_tag(shopping_cart.order_items_path, class: 'form-inline') do
+ =form_tag(shopping_cart.order_items_path, class: 'form-inline') do\n
    =text_field_tag(:quantity, '', class: 'form-control', type: 'number', required: true, min: 1)
    =hidden_field_tag(:id, @book.id)
    =hidden_field_tag(:model, @book.class)
