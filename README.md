@@ -79,7 +79,7 @@ You form should include following fields:
  hidden field "name='model' value='your model class'" e.g. "value='@book.class'".
  text field "name='quantity'" and hidden field "name='id' value='@book.id'". For instance,
 
- =form_tag(shopping_cart.order_items_path, class: 'form-inline') do\n
+ =form_tag(shopping_cart.order_items_path, class: 'form-inline') do
    =text_field_tag(:quantity, '', class: 'form-control', type: 'number', required: true, min: 1)
    =hidden_field_tag(:id, @book.id)
    =hidden_field_tag(:model, @book.class)
@@ -91,6 +91,10 @@ You form should include following fields:
 
  You can override views and layout for shopping cart by generating them to your project with
 'rails g shopping_cart:views'.
+
+ Also, you're able to use discount for your cart. Just create the proper discount, for example:
+ShoppingCart::Discount.create(code: 'verification code', amount: 10), where amount is percentage.
+If you don't need discount ability, delete the proper button from view.
 
 I18n:
  Run 'rails g shopping_cart:translate' to generate internationalization file to your app.
