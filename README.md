@@ -100,7 +100,7 @@ You form should include following fields:
 
  = link_to('cart', shopping_cart.order_items_path)
 
- Submit your form on the following path shopping_cart.order_items_path.
+ Submit your form on the following path `shopping_cart.order_items_path`.
 
  You can override views and layout for shopping cart by generating them to your project with
 `rails g shopping_cart:views`.
