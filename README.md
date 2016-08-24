@@ -2,7 +2,7 @@
 Simple gem which adds shopping cart and checkout ability to your shop.
 
 ## Installation
-Add this line to your application's Gemfile:
+Add this line to your application's Gemfile to get latest update:
 
 ```ruby
 gem 'shopping_cart', github: 'rockandruby/shopping_cart'
