@@ -106,6 +106,18 @@ You form should include following fields:
  = link_to('cart', shopping_cart.order_items_path)
 
  Submit your form on the following path `shopping_cart.order_items_path`.
+ 
+ #### Order details
+ To get current order just do `ShoppingCart::Order.current_order(user)` with current user object as argument.
+ [AASM](https://github.com/aasm/aasm)  used to save states for order. Order has 3 states: 'in_progress', 'placed' and
+ 'canceled' and proper events: 'place_order' and 'cancel_order'. How to use states you can read in aasm docs.
+ Order object has some useful methods:
+ - subtotal_price  raw price of goods without shipping and discount(if present)
+ - total_price  final price including all costs
+ - order_items_count property to retrieve amount of items in cart
+ 
+ When user adds goods to cart a new order created with 'in_progress' state. It doesn't matter whether user delete all items
+or not, it can have only one order 'in_progress' unless he place it. It was made to avoid each time order creation.
 
  You can override views and layout for shopping cart by generating them to your project with
 `rails g shopping_cart:views`.
