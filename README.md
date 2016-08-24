@@ -7,6 +7,11 @@ Add this line to your application's Gemfile:
 ```ruby
 gem 'shopping_cart', github: 'rockandruby/shopping_cart'
 ```
+or get last stable version
+
+```ruby
+gem 'shopping_cart'
+```
 
 ## Usage
  Define root in your routes and run `rails g shopping_cart:config` to install shopping cart.
