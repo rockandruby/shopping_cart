@@ -9,7 +9,7 @@ gem 'shopping_cart', github: 'rockandruby/shopping_cart'
 ```
 
 ## Usage
- Define root in your routes and run 'rails g shopping_cart:config' to install shopping cart.
+ Define root in your routes and run `rails g shopping_cart:config` to install shopping cart.
 
   Ensure you have flash messages in app/views/layouts/application.html.erb.
       For example:
