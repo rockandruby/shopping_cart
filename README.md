@@ -33,8 +33,7 @@ comment the array ans you will have only address and complete steps.
 
 ##### Notice!!! Order of elements in ShoppingCart.order_steps are equal to steps' order in your app.
 
-##### Notice!!!! If you use shipping step you should create needed shippings like
-ShoppingCart::Shipping.create(title:'Shipping title', price: 123).
+##### Notice!!!! If you use shipping step you should create needed shippings e.g. ShoppingCart::Shipping.create(title:'Shipping title', price: 123).
 
  When you install shopping cart, you retrieve migrations for default steps. You can delete proper migration for
 step you want to skip. Then run rails db:migrate to run migrations.
