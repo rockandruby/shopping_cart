@@ -31,6 +31,7 @@ string format.
  - payment
  - shipping
  - complete
+ 
  Payment and shipping are optional. In shopping cart initializer you have `ShoppingCart.order_steps = %i(shipping payment)`.
 If you want to delete step, just delete it from array. If you want to delete optional steps at all, just
 comment the array ans you will have only address and complete steps.
@@ -59,16 +60,20 @@ Your step controller will have 3 main methods:
 - `redirect_by_step(:your_step)` which redirects to next step.
 
 Below simple example how it works:
+
  def your_step
+ 
   return redirect_to :back unless check_step(:your_step)
+  
   //do some code
+  
  end
 
- def add_your_step
+ `def add_your_step
    //do some code
    update_step(:your_step)
    redirect_by_step(:your_step)
- end
+ end`
 So
 
  You should add the following association for your user model "has_many :orders,
