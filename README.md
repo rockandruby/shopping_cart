@@ -107,7 +107,8 @@ You form should include following fields:
 
  Submit your form on the following path `shopping_cart.order_items_path`.
  
- ##### Order details
+ ##### Order
+ 
  To get current order just do `ShoppingCart::Order.current_order(user)` with current user object as argument.
  [AASM](https://github.com/aasm/aasm)  used to save states for order. Order has 3 states: 'in_progress', 'placed' and
  'canceled' and proper events: 'place_order' and 'cancel_order'. How to use states you can read in aasm docs.
