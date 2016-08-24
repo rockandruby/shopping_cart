@@ -66,15 +66,15 @@ Your step controller will have 3 main methods:
 
 Below simple example how it works:
 
- `def your_step
+ def your_step
  
   return redirect_to :back unless check_step(:your_step)
   
   //do some code
   
- end`
+ end
 
- `def add_your_step
+ def add_your_step
  
    //do some code
    
@@ -82,7 +82,7 @@ Below simple example how it works:
    
    redirect_by_step(:your_step)
    
- end`
+ end
 
  You should add the following association for your user model `has_many :orders, :class_name => 'ShoppingCart::Order'`.
 
