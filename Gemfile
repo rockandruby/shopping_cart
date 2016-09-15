@@ -21,3 +21,10 @@ gem 'devise'
 gem 'cancancan', '~> 1.10'
 gem 'aasm'
 gem 'rails-i18n', '~> 5.0.0'
+group :development, :test do
+  gem 'rspec-rails', '~> 3.5'
+end
+group :test do
+  gem 'shoulda-matchers', '~> 3.1'
+  gem "factory_girl_rails", "~> 4.0"
+end

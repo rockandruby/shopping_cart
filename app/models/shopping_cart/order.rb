@@ -35,8 +35,8 @@ module ShoppingCart
     def total_price
       subtotal = subtotal_price
       discount = discount_amount ? subtotal * (discount_amount.to_f / 100) : 0
-      shipping_price ||= 0
-      subtotal - shipping_price - discount
+      shipping = shipping_price || 0
+      subtotal + shipping - discount
     end
 
     def self.current_order(user)
