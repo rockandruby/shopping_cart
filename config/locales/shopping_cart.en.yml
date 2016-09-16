@@ -32,4 +32,5 @@ en:
     choose_shipping: You need to choose shipping method
     cart_updated: You updated a cart
     valid_coupon: Your discount is %{amount}% from cart total price
+    invalid_coupon: Invalid coupon
     order_placed: Congratulations! Yout order placed successfully. Will get in touch asap.

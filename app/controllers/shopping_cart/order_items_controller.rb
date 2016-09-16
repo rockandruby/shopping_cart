@@ -11,31 +11,31 @@ module ShoppingCart
       model = params['model'].constantize
       product = model.find(params['id'])
       return unless product.respond_to?(:price) && OrderItem.new(quantity: params[:quantity]).valid?
-      @current_order ||= Order.create(user: @user)
       order_item = @current_order.order_items.find_by(productable: product)
       if order_item
         order_item.update(quantity: params[:quantity])
+        flash[:notice] = t('shopping_cart.cart_updated')
       else
         @current_order.order_items.create(productable: product,
                                           price: product.price, quantity: params[:quantity])
+        flash[:notice] = t('shopping_cart.item_added')
       end
-      flash[:notice] = t('shopping_cart.item_added')
       redirect_to root_path
     end
 
     def update
-      flash[:notice] = t('shopping_cart.cart_updated') if @order_item.update(quantity: params[:quantity])
-      redirect_to root_path
+      if @order_item.update(quantity: params[:quantity])
+        flash[:notice] = t('shopping_cart.cart_updated')
+        redirect_to root_path
+      end
     end
 
     def destroy
-      @order_item.destroy
-      redirect_to root_path
+      redirect_to root_path if @order_item.destroy
     end
 
     def destroy_items
-      @current_order.order_items.destroy_all
-      redirect_to root_path
+      redirect_to root_path if @current_order.order_items.destroy_all
     end
 
     def discount
@@ -43,8 +43,10 @@ module ShoppingCart
       if discount && discount.order_id.nil?
         discount.update(order: @current_order)
         flash[:notice] = t('shopping_cart.valid_coupon', amount: discount.amount)
+        redirect_to root_path
+      else
+        flash[:notice] = t('shopping_cart.invalid_coupon')
       end
-      redirect_to root_path
     end
 
   end

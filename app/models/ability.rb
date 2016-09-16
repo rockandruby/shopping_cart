@@ -2,7 +2,6 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    alias_action :update, :destroy, to: :modify
-    can :modify, ShoppingCart::OrderItem, order_id: ShoppingCart::Order.current_order(user).id
+    can :manage, ShoppingCart::OrderItem, order: user.orders.current_order
   end
 end

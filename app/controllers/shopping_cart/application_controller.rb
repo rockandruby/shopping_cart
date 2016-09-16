@@ -11,8 +11,7 @@ module ShoppingCart
     protected
 
     def get_order
-      @user = send("current_#{ShoppingCart.user_class.downcase}")
-      @current_order = Order.current_order(@user)
+      @current_order = Order.find_or_create_by(user: current_user, state: 'in_progress')
     end
 
     def check_order
