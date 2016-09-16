@@ -21,7 +21,7 @@ module ShoppingCart
         book = create(:shopping_cart_book)
         post :create, model: book.class, id: book.id, quantity: 1
         expect(response).to redirect_to(root_path)
-        expect(user.orders.current_order.order_items_count).to eq(1)
+        expect(user.current_order.order_items_count).to eq(1)
       end
 
       it "update item qty" do
