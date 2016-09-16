@@ -26,8 +26,6 @@ module ShoppingCart
     delegate :amount, to: :discount, prefix: true, allow_nil: true
     delegate :price, to: :shipping, prefix: true, allow_nil: true
 
-    scope :current_order, -> { find_by_state('in_progress') }
-
     def subtotal_price
       order_items.inject(0) do |sum, item|
         sum + item.quantity * item.price

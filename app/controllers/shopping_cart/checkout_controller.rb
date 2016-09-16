@@ -2,8 +2,6 @@ require_dependency "shopping_cart/application_controller"
 
 module ShoppingCart
   class CheckoutController < ApplicationController
-    before_action :get_order
-    before_action :check_order
     before_action :init_steps
     before_action :init_address, only: [:index, :add_address]
     before_action :init_payment, only: [:payment, :add_payment]
