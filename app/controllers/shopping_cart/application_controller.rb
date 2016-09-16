@@ -9,5 +9,11 @@ module ShoppingCart
       redirect_to '/', alert: exception.message
     end
 
+    private
+
+    def get_order
+      @current_order = current_user.current_order
+    end
+
   end
 end

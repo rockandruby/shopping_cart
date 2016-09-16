@@ -2,6 +2,9 @@ require_dependency "shopping_cart/application_controller"
 
 module ShoppingCart
   class CheckoutController < ApplicationController
+    before_action :authenticate_user!
+    before_action :get_order
+    before_action :check_order
     before_action :init_steps
     before_action :init_address, only: [:index, :add_address]
     before_action :init_payment, only: [:payment, :add_payment]
@@ -9,26 +12,23 @@ module ShoppingCart
 
     layout 'shopping_cart/checkout'
 
-    def shipping
-      redirect_to :back unless check_step(:shipping)
-      @shippings = Shipping.all
-    end
-
-    def payment
-      redirect_to :back unless check_step(:payment)
-    end
-
-    def create
-      @current_order.place_order
-      @current_order.update(completed_at: Time.now, total_price: @current_order.total_price)
-      flash[:notice] = t('shopping_cart.order_placed')
-      redirect_to '/'
+    def index
+      redirect_to root_path unless @current_order.order_items.any?
     end
 
     def add_address
       return render :index unless @address.update(address_params)
       @current_order.update(step: 0) unless @current_order.step
       redirect_to @steps ? "/shopping_cart/checkout/#{@steps[0]}" : '/shopping_cart/checkout/complete'
+    end
+
+    def shipping
+      redirect_to root_path unless check_step(:shipping)
+      @shippings = Shipping.all
+    end
+
+    def payment
+      redirect_to root_path unless check_step(:payment)
     end
 
     def add_shipping
@@ -48,7 +48,18 @@ module ShoppingCart
       redirect_by_step(:payment)
     end
 
+    def create
+      @current_order.place_order
+      @current_order.update(completed_at: Time.now, total_price: @current_order.total_price)
+      flash[:notice] = t('shopping_cart.order_placed')
+      redirect_to '/'
+    end
+
     private
+
+    def check_order
+      redirect_to root_path unless @current_order
+    end
 
     def init_steps
       @steps = ShoppingCart.order_steps
