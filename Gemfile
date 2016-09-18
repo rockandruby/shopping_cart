@@ -26,7 +26,8 @@ group :development, :test do
 end
 group :test do
   gem 'shoulda-matchers', '~> 3.1'
-  gem "factory_girl_rails", "~> 4.0"
+  gem 'factory_girl_rails', '~> 4.0'
   gem 'ffaker'
   gem 'rails-controller-testing'
+  gem 'capybara'
 end
