@@ -2,16 +2,16 @@ require 'rails_helper'
 
 describe 'Shopping cart usage.' do
   before(:each) do
-    @book = create(:shopping_cart_book)
+    create(:shopping_cart_book)
   end
 
-  it "should offer to sign in" do
+  it "should offer to sign in before shopping" do
     visit engine_app.order_items_path
     expect(page).to have_content('sign')
   end
 
   context 'authed user' do
-    let(:user) {create(:shopping_cart_user)}
+    let(:user) { create(:shopping_cart_user) }
     before(:each) do
       login_as(user)
     end
@@ -41,13 +41,12 @@ describe 'Shopping cart usage.' do
         expect(page).to have_content(I18n.t('shopping_cart.subtotal'))
       end
 
-      context  do
+      context do
         before(:each) do
           visit engine_app.root_path
         end
 
         it "should update item quantity" do
-
           fill_in 'quantity', with: 1
           find('.update_qty').click
           expect(page).to have_content(I18n.t('shopping_cart.cart_updated'))
@@ -62,10 +61,7 @@ describe 'Shopping cart usage.' do
           click_on I18n.t('shopping_cart.checkout')
           expect(page).to have_content(I18n.t('shopping_cart.address'))
         end
-
       end
-
     end
-
   end
 end

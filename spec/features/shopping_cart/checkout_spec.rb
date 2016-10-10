@@ -2,11 +2,12 @@ require 'rails_helper'
 
 describe 'Checkout process.' do
   let(:user) {create(:shopping_cart_user)}
+
   before(:each) do
     login_as(user)
-    @current_order = create(:shopping_cart_order, user: user)
-    create(:shopping_cart_order_item, order: @current_order)
-    @shippings = create(:shopping_cart_shipping)
+    order = create(:shopping_cart_order, user: user)
+    create(:shopping_cart_order_item, order: order)
+    create(:shopping_cart_shipping)
   end
 
   it "should add address" do
