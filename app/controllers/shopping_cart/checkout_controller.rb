@@ -3,9 +3,7 @@ require_dependency "shopping_cart/application_controller"
 module ShoppingCart
   class CheckoutController < ApplicationController
     before_action :authenticate_user!
-    before_action :get_order
-    before_action :check_order
-    before_action :init_steps
+    before_action :init_checkout
     before_action :init_address, only: [:index, :add_address]
     before_action :init_payment, only: [:payment, :add_payment]
     before_action :check_complete, only: [:complete, :create]
@@ -19,16 +17,17 @@ module ShoppingCart
     def add_address
       return render :index unless @address.update(address_params)
       @current_order.update(step: 0) unless @current_order.step
-      redirect_to @steps ? "/shopping_cart/checkout/#{@steps[0]}" : '/shopping_cart/checkout/complete'
+      return redirect_to '/shopping_cart/checkout/complete' unless @steps
+      redirect_to "/shopping_cart/checkout/#{@steps[0]}"
     end
 
     def shipping
-      redirect_to root_path unless check_step(:shipping)
+      redirect_to :back unless check_step(:shipping)
       @shippings = Shipping.all
     end
 
     def payment
-      redirect_to root_path unless check_step(:payment)
+      redirect_to :back unless check_step(:payment)
     end
 
     def add_shipping
@@ -57,20 +56,18 @@ module ShoppingCart
 
     private
 
-    def check_order
+    def init_checkout
+      get_order
       redirect_to root_path unless @current_order
-    end
-
-    def init_steps
       @steps = ShoppingCart.order_steps
     end
 
     def init_address
-      @address = @current_order.address || Address.new(order: @current_order)
+      @address = Address.find_or_initialize_by(order: @current_order)
     end
 
     def init_payment
-      @credit_card = @current_order.credit_card || CreditCard.new(order: @current_order)
+      @credit_card = CreditCard.find_or_initialize_by(order: @current_order)
     end
 
     def address_params
@@ -101,7 +98,9 @@ module ShoppingCart
     end
 
     def redirect_by_step(current_step)
-      return redirect_to '/shopping_cart/checkout/complete' if !@steps || current_step == @steps.last
+      if !@steps || current_step == @steps.last
+        return redirect_to '/shopping_cart/checkout/complete'
+      end
       redirect_to "/shopping_cart/checkout/#{@steps[@steps.index(current_step) + 1]}"
     end
   end
