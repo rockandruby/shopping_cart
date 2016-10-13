@@ -66,6 +66,7 @@ Your step controller will have 3 main methods:
 
 Below simple example how it works:
 
+```ruby
  def your_step
  
   return redirect_to :back unless check_step(:your_step)
@@ -83,7 +84,7 @@ Below simple example how it works:
    redirect_by_step(:your_step)
    
  end
-
+```
  You should add the following association for your user model `has_many :orders, :class_name => 'ShoppingCart::Order'`.
 
  Cart can process any product type quantity, you just need to add the following association to your product model(e.g. Book, Magazine etc.) `has_many :order_items, :class_name => 'ShoppingCart::OrderItem', as: :productable`.
@@ -93,6 +94,7 @@ You form should include following fields:
  `hidden field "name='model' value='your model class'" e.g. "value='@book.class'"`.
  `text field "name='quantity'" and hidden field "name='id' value='@book.id'"`. For instance,
 
+```ruby
  =form_tag(shopping_cart.order_items_path, class: 'form-inline') do
  
    =text_field_tag(:quantity, '', class: 'form-control', type: 'number', required: true, min: 1)
@@ -104,7 +106,7 @@ You form should include following fields:
    =submit_tag
 
  = link_to('cart', shopping_cart.order_items_path)
-
+```
  Submit your form on the following path `shopping_cart.order_items_path`.
  
  **Order details**
