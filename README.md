@@ -36,7 +36,6 @@ string format.
  - payment
  - shipping
  - complete
- 
  Payment and shipping are optional. In shopping cart initializer you have `ShoppingCart.order_steps = %i(shipping payment)`.
 If you want to delete step, just delete it from array. If you want to delete optional steps at all, just
 comment the array ans you will have only address and complete steps.
@@ -93,6 +92,7 @@ Also your model must have 'price' attribute.
 You form should include following fields:
  `hidden field "name='model' value='your model class'" e.g. "value='@book.class'"`.
  `text field "name='quantity'" and hidden field "name='id' value='@book.id'"`. For instance,
+
 
 ```ruby
  =form_tag(shopping_cart.order_items_path, class: 'form-inline') do
