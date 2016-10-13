@@ -17,8 +17,7 @@ module ShoppingCart
     def add_address
       return render :index unless @address.update(address_params)
       @current_order.update(step: 0) unless @current_order.step
-      return redirect_to '/shopping_cart/checkout/complete' unless @steps
-      redirect_to "/shopping_cart/checkout/#{@steps[0]}"
+      redirect_to @steps ? "/shopping_cart/checkout/#{@steps[0]}" : '/shopping_cart/checkout/complete'
     end
 
     def shipping
